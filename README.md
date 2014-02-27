@@ -42,7 +42,7 @@ Components used:
 
 * ASP.NET MVC
 * Bootstrap for UI
-* Castle Windsor as the IoC container.
+* Castle Windsor as the IoC container. (I have previous experience with StructureMap and have not used Castle Windsor before.  The "WindsorControllerFactory" was taken from one of their online examples.)
 * Bootstrapper for configuration of Castle Windsor (and Automapper which I ended up not using)
 * Entity Framework as the ORM
 * jQuery, etc.
