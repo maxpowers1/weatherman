@@ -20,13 +20,15 @@ namespace WeathermanWeb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Use bootstrapper to setup AutoMapper, and Castle Windsor.
+            //Automapper was not actually used in this project.
             Bootstrapper.With.AutoMapper().Windsor().Start();
-            BootstrapContainer();
         }
 
         protected void Application_End()
         {
-            //_container.Dispose();
+// Check if the CastleWindsor container exists, and dispose of it if necessary.
             var container = (IWindsorContainer)Bootstrapper.Container;
             if (container != null)
             {
@@ -34,14 +36,5 @@ namespace WeathermanWeb
             }
         }
 
-
-        private static void BootstrapContainer()
-        {
-            //var container = (IWindsorContainer)Bootstrapper.Container;
-            //var controllerFactory = new WindsorControllerFactory(_container.Kernel);
-            //ControllerBuilder.Current.SetControllerFactory(controllerFactory);
-            //container.Register(Component.For<ITopicService>()
-            //         .ImplementedBy<TopicService>());
-        }
     }
 }

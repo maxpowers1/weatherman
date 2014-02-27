@@ -74,6 +74,8 @@
 
                             @foreach (var weatherIconUrl in Model.WeatherIconUrls)
                             {
+                                @*Security wise, would not normally jsut emit a URL to browser gotten from a webservice*@
+            
                                 <img src="@weatherIconUrl" alt="Weather image icon" />
                             }
 
@@ -107,13 +109,14 @@
     <script type="text/javascript">
 
 
+        //Javascript could use some better error handling.
+
         $(document).ready(function() {
             $("#findLocation").on("click", getLocation);
         });
 
 
         function codeGetLatLong(postalcode) {
-            alert(postalcode);
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'address': postalcode }, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {

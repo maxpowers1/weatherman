@@ -51,7 +51,7 @@ namespace WeathermanWeb.Controllers
             //Weather search results box.
             weatherLookupViewModel.WeatherSearchPerformed = response.Success;
 
-            //Depending on the state of the 
+            //Depending on the state of the response, clean up the viewModel we are returning.
             weatherLookupViewModel.WeatherDataFound = response.Success;
             weatherLookupViewModel.CurrentConditions = response.Success ? response.Conditions : string.Empty;
             weatherLookupViewModel.CurrentTemperature = response.Success ? response.Temperature : string.Empty;

@@ -23,13 +23,16 @@ namespace WeathermanServiceLayer.Implementation.WorldWideWeatherOnline
 
             try
             {
-
+                //Using rest sharp to pull weather data from the weather api url.
                 var client = new RestClient(_apiUrl);
-
                 var zipCodeRequest = string.Format(_apiRestRequest, request.ZipCode);
                 var restRequest = new RestRequest(zipCodeRequest, Method.GET) { RequestFormat = DataFormat.Json };
 
+
+                //Used http://json2csharp.com/ to build C# classes from the worldWeatherONline API.
                 var restResponse = client.Execute<WorldWideWeatherOnline.JSONClasses.RootObject>(restRequest);
+                
+                //return a failed response if we are unable to pull weather data.
                 if (restResponse.ErrorException != null)
                 {
                     response.Success = false;
@@ -38,6 +41,7 @@ namespace WeathermanServiceLayer.Implementation.WorldWideWeatherOnline
                     return response;
                 }
 
+                //If any piece of restResponse we need was not returned. Return a failed response.
                 if (restResponse.Data == null || restResponse.Data.data == null || restResponse.Data.data.current_condition == null)
                 {
                     response.Success = false;
@@ -54,14 +58,18 @@ namespace WeathermanServiceLayer.Implementation.WorldWideWeatherOnline
                     return response;
                 }
 
+                //Weather descriptions is a collection, so build a string with all the values
                 var weatherDescriptions = currentConditions.weatherDesc;
                 var conditions = new StringBuilder();
                 foreach (var weatherDescription in weatherDescriptions)
                 {
                     conditions.AppendLine(weatherDescription.value);
                 }
+
+                
                 var weatherIconUrls = currentConditions.weatherIconUrl;
 
+                //Add all weather icon urls gotten to the response.
                 foreach (var weatherIconUrl in weatherIconUrls)
                 {
                     response.WeatherIconUrls.Add(weatherIconUrl.value);
