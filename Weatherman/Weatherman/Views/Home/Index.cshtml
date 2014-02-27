@@ -1,0 +1,137 @@
+﻿@model WeathermanServiceLayer.ViewModels.WeatherLookup.WeatherLookupViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>The Weatherman</h1>
+    <h2>(Not affiliated with the Nicholas Cage movie.)</h2>
+</div>
+
+<h2>Weather Lookup</h2>
+
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "weatherSearch", role = "form" }))
+{
+
+    <div class="row row-buffers">
+
+        <div class=".col-xs-12 .col-md-8">
+            <div class="form-group">
+
+                @Html.LabelFor(m => m.ZipCodeSearch)
+                @Html.TextBoxFor(m => m.ZipCodeSearch, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ZipCodeSearch)
+                @Html.HiddenFor(m => m.LatLong)
+            </div>
+            <input type="submit" id="searchForMyWeather" class="btn" value="Search for my Weather" />
+            <input type="button" id="findLocation" class="btn" value="Lookup my location" />
+
+        </div>
+
+    </div>
+}
+
+
+
+
+@if (Model.WeatherSearchPerformed)
+{
+    if (Model.WeatherDataFound)
+    {
+
+        <div class="row row-buffers">
+
+            <div class=".col-xs-12 .col-md-8">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">
+                        Weather for @Model.ZipCodeSearch
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+
+                            using (Html.BeginForm("SaveFavorite", "Home", FormMethod.Post, new { id = "weatherSearchSave", role = "form" }))
+                            {
+                                <input type="submit" id="saveFavorite" class="btn" value="Add to Favorites" />
+                                @Html.HiddenFor(h => h.ZipCodeSearch)
+
+                            }
+
+
+
+                        }
+
+                    </div>
+
+
+                    <!-- List group -->
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Conditions: @Model.CurrentConditions
+                            <br />
+
+                            @foreach (var weatherIconUrl in Model.WeatherIconUrls)
+                            {
+                                <img src="@weatherIconUrl" alt="Weather image icon" />
+                            }
+
+                        </li>
+                        <li class="list-group-item">Temperature: @Model.CurrentTemperature</li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row row-buffers">
+
+            <div class=".col-xs-12 .col-md-8">
+                <div class="well">
+                    Unable to find weather data from the given zip code.
+
+                </div>
+            </div>
+        </div>
+
+    }
+}
+
+
+@section scripts
+{
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $("#findLocation").on("click", getLocation);
+        });
+
+
+        function codeGetLatLong(postalcode) {
+            alert(postalcode);
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': postalcode }, function (results, status) {
+                $("#" + "@Html.ClientIdFor(m => m.LatLong)").val(results[0].geometry.location);
+            });
+        };
+
+
+        function codeLatLng(latIn, longIn) {
+            var geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(latIn, longIn);
+            var shortName = "";
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                shortName = _.find(results[0].address_components, function (ac) { return ac.types[0] == 'postal_code' }).short_name;
+                $("#" + "@Html.ClientIdFor(m => m.ZipCodeSearch)").val(shortName);
+            });
+        };
+
+
+    </script>
+
+}
+
