@@ -37,6 +37,7 @@ Pre-requisites:
 * SQL Server 2008 R2 (Express) or higher.
 * .Net Framework 4.5
 * NuGet
+* IIS Express
 
 
 Components used:
