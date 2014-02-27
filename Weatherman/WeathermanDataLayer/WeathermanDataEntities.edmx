@@ -14,8 +14,17 @@
           <Property Name="ZipCode" Type="nvarchar(max)" Nullable="false" />
           <Property Name="City" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserCode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="weathermanModelStoreContainer">
           <EntitySet Name="SavedLocations" EntityType="Self.SavedLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCode" EntityType="Self.UserCode" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -23,6 +32,7 @@
       <Schema Namespace="weathermanModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="weathermanEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="SavedLocations" EntityType="weathermanModel.SavedLocation" />
+          <EntitySet Name="UserCodes" EntityType="weathermanModel.UserCode" />
           </EntityContainer>
         <EntityType Name="SavedLocation">
           <Key>
@@ -32,6 +42,14 @@
           <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="ZipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="City" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserCode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -44,6 +62,15 @@
               <MappingFragment StoreEntitySet="SavedLocations">
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCodes">
+            <EntityTypeMapping TypeName="weathermanModel.UserCode">
+              <MappingFragment StoreEntitySet="UserCode">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

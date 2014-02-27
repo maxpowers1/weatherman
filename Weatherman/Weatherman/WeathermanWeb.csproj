@@ -287,7 +287,6 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="topic.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -315,6 +314,8 @@
     <Content Include="Views\Shared\_LoggedInNavigation.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Views\Home\Favorites.cshtml" />
+    <Content Include="Views\Shared\Test.cshtml" />
+    <Content Include="Views\Shared\_IndividualWeatherEntry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ec9c312e54b046d3964c299aae40b8fa" Name="Diagram1">
         <EntityTypeShape EntityType="weathermanModel.SavedLocation" Width="1.5" PointX="3.375" PointY="0.5" />
+        <EntityTypeShape EntityType="weathermanModel.UserCode" Width="1.5" PointX="0.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -26,5 +26,6 @@ namespace WeathermanDataLayer
         }
     
         public virtual DbSet<SavedLocation> SavedLocations { get; set; }
+        public virtual DbSet<UserCode> UserCodes { get; set; }
     }
 }

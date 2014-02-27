@@ -1,6 +1,6 @@
 ﻿@model WeathermanServiceLayer.ViewModels.WeatherLookup.WeatherLookupViewModel
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home";
 }
 
 <div class="jumbotron">
@@ -30,6 +30,7 @@
         </div>
 
     </div>
+    @Html.AntiForgeryToken()
 }
 
 
@@ -55,7 +56,7 @@
                             {
                                 <input type="submit" id="saveFavorite" class="btn" value="Add to Favorites" />
                                 @Html.HiddenFor(h => h.ZipCodeSearch)
-
+                                @Html.AntiForgeryToken()
                             }
 
 

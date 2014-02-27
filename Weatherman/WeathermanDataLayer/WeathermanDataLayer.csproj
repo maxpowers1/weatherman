@@ -54,6 +54,9 @@
     <Compile Include="SavedLocation.cs">
       <DependentUpon>WeathermanDataEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserCode.cs">
+      <DependentUpon>WeathermanDataEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="WeathermanDataEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

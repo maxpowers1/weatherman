@@ -65,6 +65,13 @@
     <Reference Include="DataAnnotationsExtensions.ClientValidation">
       <HintPath>..\packages\DataAnnotationsExtensions.MVC3.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -91,14 +98,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
-    <Compile Include="AutoMapperConfiguration\TopicAutoMapper.cs" />
+    <Compile Include="AutoMapperConfiguration\AutoMapperSetup.cs" />
+    <Compile Include="Implementation\FavoritesService.cs" />
     <Compile Include="Implementation\WorldWideWeatherOnline\JSONClasses\WorldWideWeatherOnlineJsonClasses.cs" />
     <Compile Include="Implementation\WorldWideWeatherOnline\WorldWideWeatherOnlineService.cs" />
+    <Compile Include="Interfaces\Services\IFavoritesService.cs" />
     <Compile Include="Interfaces\Services\IWeatherLookupService.cs" />
+    <Compile Include="Messages\FavoritesMessages.cs" />
     <Compile Include="Messages\GenericResponse.cs" />
     <Compile Include="Messages\WeatherMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CastleWindsor\ServiceRegistry.cs" />
+    <Compile Include="Utility\TypingMonkey.cs" />
+    <Compile Include="ViewModels\FavoritesViewModel.cs" />
     <Compile Include="ViewModels\WeatherLookup\WeatherLookupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

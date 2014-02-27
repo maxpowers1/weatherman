@@ -1,0 +1,36 @@
+﻿@model WeathermanServiceLayer.ViewModels.IndividualWeatherEntryViewModel
+
+
+
+<div class=".col-xs-12 .col-md-8">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Weather for @Model.PostalCode
+        </div>
+
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                Conditions: @Model.CurrentConditions
+                <br />
+
+                @*@foreach (var weatherIconUrl in Model.WeatherIconUrls)
+                    {
+                        <img src="@weatherIconUrl" alt="Weather image icon" />
+                    }*@
+
+            </li>
+            <li class="list-group-item">Temperature: @Model.CurrentTemperature</li>
+
+        </ul>
+
+
+
+    </div>
+</div>
+
+
+
+
+

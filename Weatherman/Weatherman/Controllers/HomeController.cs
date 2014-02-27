@@ -21,6 +21,7 @@ namespace WeathermanWeb.Controllers
         { }
 
         public virtual IWeatherLookupService WeatherLookupService { get; set; }
+        public virtual IFavoritesService FavoritesService { get; set; }
 
 
 
@@ -32,35 +33,40 @@ namespace WeathermanWeb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(WeatherLookupViewModel weatherLookupViewModel)
         {
             if (!ModelState.IsValid) return View(weatherLookupViewModel);
-            var request = new WeatherLookupRequest {ZipCode = weatherLookupViewModel.ZipCodeSearch};
+            var request = new WeatherLookupRequest { ZipCode = weatherLookupViewModel.ZipCodeSearch };
             weatherLookupViewModel.WeatherSearchPerformed = true;
             var response = WeatherLookupService.WeatherLookupRequest(request);
 
             weatherLookupViewModel.WeatherDataFound = response.Success;
-            weatherLookupViewModel.CurrentConditions = response.Conditions;
-            weatherLookupViewModel.CurrentTemperature = response.Temperature;
-            weatherLookupViewModel.WeatherIconUrls = response.WeatherIconUrls;
+            weatherLookupViewModel.CurrentConditions = response.Success ? response.Conditions : string.Empty;
+            weatherLookupViewModel.CurrentTemperature = response.Success ? response.Temperature : string.Empty;
+            if (response.Success)
+            {
+                weatherLookupViewModel.WeatherIconUrls = response.WeatherIconUrls;
+            }
 
             return View(weatherLookupViewModel);
         }
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult SaveFavorite(string zipCodeSearch)
         {
-            var userId = User.Identity.GetUserId();
-            var savedLocation = new SavedLocation
+            var userId = new Guid(User.Identity.GetUserId());
+            var request = new SaveUserFavoriteRequest
             {
-                City = string.Empty,
-                ZipCode = zipCodeSearch,
-                UserId = new Guid(userId)
+                WeathermanEntities = _db,
+                PostalCode = zipCodeSearch,
+                UserId = userId
             };
-            _db.SavedLocations.Add(savedLocation);
-            _db.SaveChanges();
-            return View("Favorites");
+            var response = FavoritesService.SaveUserFavorite(request);
+
+            return RedirectToAction("Favorites");
         }
 
 
@@ -68,7 +74,19 @@ namespace WeathermanWeb.Controllers
         [Authorize]
         public ActionResult Favorites()
         {
-            return View();
+
+
+
+            var userId = User.Identity.GetUserId();
+            var userIdGuid = new Guid(userId);
+            var userName = User.Identity.Name;
+            var request = new UserFavoritesRequest { WeathermanEntities = _db, UserId = userIdGuid, UserName = userName };
+            var response = FavoritesService.GetUserFavorites(request);
+            if (response.Success)
+            {
+                return View(response.FavoritesViewModel);
+            }
+            return RedirectToAction("Index");
         }
 
 

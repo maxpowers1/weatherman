@@ -20,6 +20,9 @@ namespace WeathermanServiceLayer.CastleWindsor
             container.Register(Component.For<IWeatherLookupService>()
                      .ImplementedBy<WorldWideWeatherOnlineService>());
 
+            container.Register(Component.For<IFavoritesService>()
+         .ImplementedBy<FavoritesService>());
+
         }
     }
 
