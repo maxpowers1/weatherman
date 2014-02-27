@@ -15,7 +15,7 @@ namespace WeathermanServiceLayer.CastleWindsor
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-
+                
 
             container.Register(Component.For<IWeatherLookupService>()
                      .ImplementedBy<WorldWideWeatherOnlineService>());
