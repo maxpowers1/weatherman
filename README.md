@@ -14,14 +14,14 @@ In the "/Weatherman/db" directory there is a file "CreateSchema.sql" that can be
 
 
 The application is split up into 3 projects.  
-*/Weatherman/Weatherman/WeathermanWeb.csproj
-*/Weatherman/WeathermanDataLayer/WeathermanDataLayer.csproj  (Had I had more time, I would have split this into two projects.  As it is now, the service layer knows too much about the data layer. Entity Framework's context, etc.)
-*/Weatherman/WeathermanServiceLayer/WeathermanServiceLayer.csproj
+* /Weatherman/Weatherman/WeathermanWeb.csproj
+* /Weatherman/WeathermanDataLayer/WeathermanDataLayer.csproj  (Had I had more time, I would have split this into two projects.  As it is now, the service layer knows too much about the data layer. Entity Framework's context, etc.)
+* /Weatherman/WeathermanServiceLayer/WeathermanServiceLayer.csproj
 
 
 The basic idea behind having the three projects was to make sure that no views were directly bound to any of the Entity Framework models, and to be able to switch out the calls to the weather service API.  
 
-The "WeathermanServiceLayer" has a directory "/interfaces/" which contains the "IWeatherLookupService". The "/CastleWindsor/ServiceRegistry.cs" class dictates which concrete implementation of the interfaces to use.  However, the MVC Controllers in the "WeathermanWeb" project only interact with the methods and properties defined in the "IWeatherLookupService".  
+The "WeathermanServiceLayer" has a directory "/interfaces/" which contains the "IWeatherLookupService". The "/CastleWindsor/ServiceRegistry.cs" class dictates which concrete implementation of the interfaces to use.  However, the MVC Controllers in the "WeathermanWeb" project only interact with the methods and properties defined in the "IWeatherLookupService".  "Message" classes are used to make calls to the services from the MVC controllers.  Each service method has a "request", and "response" class.  The "request" object contains any information the service needs to perform its task.  Each service method then returns a "response" object that contains at least a boolean "Success" flag, and any other relevant data for that particular call.  Including exceptions if they occur during at the service level. Passing the "response" object back to the controller with a "Success" flag set as "false".  (In the case of this setup, the "request" object passes the service the current instance of the Entity Framework "DbContext".  With more time, I would not have done this.)
 
 
 I posted a "running" version of the application at http://www.toothdominos.com/. 
