@@ -5,6 +5,7 @@
 
 <h2>User @Model.Username Favorites</h2>
 
+
 @foreach (var individualViewModelEntry in Model.WeatherEntriesViewModels)
 {
     @Html.Partial("_IndividualWeatherEntry",individualViewModelEntry)

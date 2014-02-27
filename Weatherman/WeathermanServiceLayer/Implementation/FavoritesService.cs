@@ -22,8 +22,15 @@ namespace WeathermanServiceLayer.Implementation
             try
             {
                 var dbInstance = request.WeathermanEntities;
-                var savedLocations = dbInstance.SavedLocations;
-                var favoriteViewModel = new FavoritesViewModel { Username = request.UserName };
+                var savedLocations = dbInstance.SavedLocations.Where(s=>s.UserId==request.UserId);
+                var userCode = string.Empty;
+                var userCodeEntity = dbInstance.UserCodes.SingleOrDefault(s => s.UserId == request.UserId);
+    
+                if (userCodeEntity != null)
+                {
+                    userCode = userCodeEntity.Code;
+                }
+                var favoriteViewModel = new FavoritesViewModel { Username = request.UserName,UserCode=userCode };
                 var individualWeatherEntryViewModels = new List<IndividualWeatherEntryViewModel>();
                 foreach (var savedLocation in savedLocations)
                 {

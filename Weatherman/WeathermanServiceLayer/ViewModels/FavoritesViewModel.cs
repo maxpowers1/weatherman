@@ -10,6 +10,7 @@ namespace WeathermanServiceLayer.ViewModels
    {
        public IEnumerable<IndividualWeatherEntryViewModel> WeatherEntriesViewModels { get; set; }
        public string Username { get; set; }
+       public string UserCode { get; set; }
    }
 
     public class IndividualWeatherEntryViewModel

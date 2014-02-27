@@ -10,7 +10,9 @@ namespace WeathermanServiceLayer.Interfaces.Services
    public interface IFavoritesService
    {
        UserFavoritesResponse GetUserFavorites(UserFavoritesRequest request);
+       //UserFavoritesApiResponse GetUserFavoritesApiRequest(UserFavoritesApiRequest request);
        SaveUserFavoriteResponse SaveUserFavorite(SaveUserFavoriteRequest request);
+
 
    }
 }

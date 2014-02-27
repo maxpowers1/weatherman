@@ -38,4 +38,21 @@ namespace WeathermanServiceLayer.Messages
     }
 
 
+    public class UserFavoritesApiRequest
+    {
+        public string UserCode { get; set; }
+
+        //Did not have time to implement a better solution.  Service 
+        //layer should not know the specifics of how the data layer is saving data.
+        public weathermanEntities WeathermanEntities { get; set; }
+    }
+
+
+    public class UserFavoritesApiResponse:GenericResponse
+    {
+
+        public IEnumerable<IndividualWeatherEntryViewModel> IndividualWeatherEntryViewModels;
+    }
+
+
 }

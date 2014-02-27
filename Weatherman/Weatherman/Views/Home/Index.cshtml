@@ -107,7 +107,7 @@
     <script type="text/javascript">
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#findLocation").on("click", getLocation);
         });
 
@@ -115,8 +115,10 @@
         function codeGetLatLong(postalcode) {
             alert(postalcode);
             var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'address': postalcode }, function (results, status) {
-                $("#" + "@Html.ClientIdFor(m => m.LatLong)").val(results[0].geometry.location);
+            geocoder.geocode({ 'address': postalcode }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    $("#" + "@Html.ClientIdFor(m => m.LatLong)").val(results[0].geometry.location);
+                }
             });
         };
 
@@ -125,9 +127,11 @@
             var geocoder = new google.maps.Geocoder();
             var latlng = new google.maps.LatLng(latIn, longIn);
             var shortName = "";
-            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-                shortName = _.find(results[0].address_components, function (ac) { return ac.types[0] == 'postal_code' }).short_name;
-                $("#" + "@Html.ClientIdFor(m => m.ZipCodeSearch)").val(shortName);
+            geocoder.geocode({ 'latLng': latlng }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    shortName = _.find(results[0].address_components, function(ac) { return ac.types[0] == 'postal_code' }).short_name;
+                    $("#" + "@Html.ClientIdFor(m => m.ZipCodeSearch)").val(shortName);
+                }
             });
         };
 
