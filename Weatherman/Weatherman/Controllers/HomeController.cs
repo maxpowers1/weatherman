@@ -36,11 +36,22 @@ namespace WeathermanWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(WeatherLookupViewModel weatherLookupViewModel)
         {
+            //Check if model state (Data annotations on viewmodel class) is valid if not return the model to the 
+            //view.
             if (!ModelState.IsValid) return View(weatherLookupViewModel);
+
+            //Create request to be sent to the WeatherLookupService
             var request = new WeatherLookupRequest { ZipCode = weatherLookupViewModel.ZipCodeSearch };
-            weatherLookupViewModel.WeatherSearchPerformed = true;
+
+
+            //Execute the request against the weatherlookupservice
             var response = WeatherLookupService.WeatherLookupRequest(request);
 
+            //If the service was unable to grab the current weather, then tell the view not to show the 
+            //Weather search results box.
+            weatherLookupViewModel.WeatherSearchPerformed = response.Success;
+
+            //Depending on the state of the 
             weatherLookupViewModel.WeatherDataFound = response.Success;
             weatherLookupViewModel.CurrentConditions = response.Success ? response.Conditions : string.Empty;
             weatherLookupViewModel.CurrentTemperature = response.Success ? response.Temperature : string.Empty;
@@ -57,6 +68,9 @@ namespace WeathermanWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaveFavorite(string zipCodeSearch)
         {
+            //Get the currently logged in user.  Better error trapping could be used here. 
+            //Even though "Authorize" is set, still should be checking to see if the User.Identity call 
+            //is available.
             var userId = new Guid(User.Identity.GetUserId());
             var request = new SaveUserFavoriteRequest
             {
@@ -65,8 +79,12 @@ namespace WeathermanWeb.Controllers
                 UserId = userId
             };
             var response = FavoritesService.SaveUserFavorite(request);
-
-            return RedirectToAction("Favorites");
+            
+            //if our service call succeeds, send the user to the Favorites view, otherwise just put them back
+            //at the Index page. 
+            //A more detailed explanation should be added to the UI as to why their "Favorite"
+            //was not saved.
+            return RedirectToAction(response.Success ? "Favorites" : "Index");
         }
 
 
@@ -81,6 +99,9 @@ namespace WeathermanWeb.Controllers
             var userIdGuid = new Guid(userId);
             var userName = User.Identity.Name;
             var request = new UserFavoritesRequest { WeathermanEntities = _db, UserId = userIdGuid, UserName = userName };
+            
+            //If we are able to get the user's favorites, then display them
+            //otherwise, return the user back to the index page.
             var response = FavoritesService.GetUserFavorites(request);
             if (response.Success)
             {
